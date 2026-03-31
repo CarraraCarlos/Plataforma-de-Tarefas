@@ -1,4 +1,4 @@
-namespace PlataformaDeTarefas.Models;
+namespace ToDoPlatform.Models;
 
 public class ErrorViewModel
 {
