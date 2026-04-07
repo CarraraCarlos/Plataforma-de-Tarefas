@@ -35,12 +35,9 @@ public class UserService : IUserService
                     .FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null) return null;
 
-        var user = await _dbContext.AppUsers.SingleOrDefaultAsync(u =>
-u.Id == userId);
-        var roles = string.Join(", ", await
-_userManager.GetRolesAsync(user));
-        var isAdmin = await _userManager.IsInRoleAsync(user,
-"Administrador");
+        var user = await _dbContext.AppUsers.SingleOrDefaultAsync(u => u.Id == userId);
+        var roles = string.Join(", ", await _userManager.GetRolesAsync(user));
+        var isAdmin = await _userManager.IsInRoleAsync(user,"Administrador");
 
         return new UserVM()
         {
@@ -61,8 +58,7 @@ _userManager.GetRolesAsync(user));
         if (user != null) userName = user.UserName;
 
         var result = await _signInManager.PasswordSignInAsync(
-            userName, login.Password, login.RememberMe,
-    lockoutOnFailure: true);
+            userName, login.Password, login.RememberMe, lockoutOnFailure: true);
 
         if (result.Succeeded)
             _logger.LogInformation($"Usuário '{userName}' acessou o sistema");
@@ -105,4 +101,5 @@ public async Task<List<string>> Register(RegisterVM register)
             result.Add(TranslateIdentityErrors.TranslateErrorMessage(error.Code));
     }
     return result;
+}
 }
